@@ -9,7 +9,7 @@ import LinkedList.ListNode;
 import Classes.Neurotransmisor;
 
 /** Clase TablaHash: implementacion de la tabla hash con manejo de colisiones por encadenamiento (chaining) usando lista enlazada 
- * @author Diego Di Lima
+ * @author Diego Di Lima y Aridna Lechin
  */
 public class HashTable {
 
