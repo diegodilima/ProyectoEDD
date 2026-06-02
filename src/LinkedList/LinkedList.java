@@ -6,7 +6,7 @@ package LinkedList;
 
 /**
  * . Clase LinkedList: lista simple enlazada 
- * @author Diego Di Lima
+ * @author Diego DiLima
  */
 public class LinkedList<T> {
 
