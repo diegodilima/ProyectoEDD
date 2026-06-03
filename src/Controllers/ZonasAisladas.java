@@ -14,15 +14,15 @@ import LinkedList.ListNode;
  * @author Ariadna Lechin
  */
 public class ZonasAisladas {
-
+    
     /** Grafo de la red sinaptica */
     private Graph graph;
-
+    /** Recorrido del ultimo BFS o DFS ejecutado */
+    private LinkedList<String> recorrido;
     /** Constructor que recibe el grafo a analizar */
     public ZonasAisladas(Graph graph) {
         this.graph = graph;
     }
-
     /** Recorrido BFS desde la neurona fuente, marca visitadas y aisladas */
     public void BFS(String idFuente) {
         graph.resetEstados();
@@ -33,6 +33,8 @@ public class ZonasAisladas {
         // Se usa LinkedList como cola FIFO
         LinkedList<Neurona> cola = new LinkedList<>();
         fuente.setVisitada(true);
+        recorrido = new LinkedList<>();
+        recorrido.append(idFuente);
         cola.append(fuente);
         while (!cola.isEmpty()) {
             Neurona actual = cola.poll();
@@ -46,6 +48,7 @@ public class ZonasAisladas {
                 Neurona vecino = nodo.getElement().getDestino();
                 if (!vecino.isVisitada()) {
                     vecino.setVisitada(true);
+                    recorrido.append(vecino.getId());
                     cola.append(vecino);
                 }
                 nodo = nodo.getpNext();
@@ -53,7 +56,7 @@ public class ZonasAisladas {
         }
         marcarAisladas();
     }
-
+    
     /** Recorrido DFS desde la neurona fuente, marca visitadas y aisladas */
     public void DFS(String idFuente) {
         graph.resetEstados();
@@ -63,6 +66,7 @@ public class ZonasAisladas {
         }
         // Se usa LinkedList como pila LIFO
         LinkedList<Neurona> pila = new LinkedList<>();
+        recorrido = new LinkedList<>();
         pila.insertAtHead(fuente);
         while (!pila.isEmpty()) {
             Neurona actual = pila.poll();
@@ -70,6 +74,7 @@ public class ZonasAisladas {
                 continue;
             }
             actual.setVisitada(true);
+            recorrido.append(actual.getId());
             LinkedList<Sinapsis> adyacentes = graph.getAdyacentes(actual.getId());
             if (adyacentes == null) {
                 continue;
@@ -86,7 +91,7 @@ public class ZonasAisladas {
         }
         marcarAisladas();
     }
-
+    
     /** Marca como aisladas las neuronas no visitadas tras el recorrido */
     private void marcarAisladas() {
         Neurona[] neuronas = graph.getNeuronas();
@@ -96,7 +101,7 @@ public class ZonasAisladas {
             }
         }
     }
-
+    
     /** Retorna true si todas las neuronas son alcanzables desde la fuente */
     public boolean esFuertementeConexo(String idFuente) {
         BFS(idFuente);
@@ -108,12 +113,15 @@ public class ZonasAisladas {
         }
         return true;
     }
-
+    /** Retorna el recorrido del ultimo BFS o DFS ejecutado */
+    public LinkedList<String> getRecorrido() {
+        return recorrido;
+    }
     /** Retorna el grafo asociado */
     public Graph getGraph() {
         return graph;
     }
-
+    
     /** Establece el grafo a analizar */
     public void setGraph(Graph graph) {
         this.graph = graph;
