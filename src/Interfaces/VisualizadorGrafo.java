@@ -6,7 +6,9 @@ package Interfaces;
 import App.App;
 import Classes.Neurona;
 import Classes.Sinapsis;
+import Controllers.ZonasAisladas;
 import LinkedList.ListNode;
+import javax.swing.JOptionPane;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 import org.graphstream.ui.swing_viewer.*;
@@ -17,7 +19,7 @@ import org.graphstream.ui.view.*;
  * @author  e miquilareno 2
  */
 public class VisualizadorGrafo extends javax.swing.JFrame {
-    
+    private Viewer viewer;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VisualizadorGrafo.class.getName());
 
     /**
@@ -27,12 +29,12 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
         initComponents();
          mostrarGrafo();
     }
-    
+
     private void mostrarGrafo() {
         System.setProperty("org.graphstream.ui", "swing");
         Graph gsGraph = new SingleGraph("Red Sinaptica");
 
-        // Se agregan los nodos
+        // Se agregan los nodos con su color segun estado
         Neurona[] neuronas = App.getInstance().getGraph().getNeuronas();
         for (int i = 0; i < App.getInstance().getGraph().getCantNeuronas(); i++) {
             String id = neuronas[i].getId();
@@ -51,20 +53,34 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
             ListNode<Sinapsis> nodo = App.getInstance().getGraph().getAdyacentes(idOrigen).getpFirst();
             while (nodo != null) {
                 String idDestino = nodo.getElement().getDestino().getId();
-                String idArista = idOrigen + "-" + idDestino;
-                gsGraph.addEdge(idArista, idOrigen, idDestino, true);
+                gsGraph.addEdge(idOrigen + "-" + idDestino, idOrigen, idDestino, true);
                 nodo = nodo.getpNext();
             }
         }
 
-        // Se embebe el grafo en el jPanel1
-        Viewer viewer = new SwingViewer(gsGraph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout();
-        ViewPanel viewPanel = (ViewPanel) viewer.addDefaultView(false);
-        viewPanel.setPreferredSize(jPanel1.getPreferredSize());
-        jPanel1.setLayout(new java.awt.BorderLayout());
-        jPanel1.add(viewPanel, java.awt.BorderLayout.CENTER);
-        jPanel1.revalidate();
+        // Primera vez se crea el viewer y se embebe en el panel
+        if (viewer == null) {
+            viewer = new SwingViewer(gsGraph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+            viewer.enableAutoLayout();
+            ViewPanel viewPanel = (ViewPanel) viewer.addDefaultView(false);
+            viewPanel.setPreferredSize(jPanel1.getPreferredSize());
+            jPanel1.setLayout(new java.awt.BorderLayout());
+            jPanel1.add(viewPanel, java.awt.BorderLayout.CENTER);
+            jPanel1.revalidate();
+        } else {
+            // Siguientes veces se destruye el viewer y se recrea
+            viewer.close();
+            viewer = null;
+            viewer = new SwingViewer(gsGraph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+            viewer.enableAutoLayout();
+            ViewPanel viewPanel = (ViewPanel) viewer.addDefaultView(false);
+            viewPanel.setPreferredSize(jPanel1.getPreferredSize());
+            jPanel1.removeAll();
+            jPanel1.setLayout(new java.awt.BorderLayout());
+            jPanel1.add(viewPanel, java.awt.BorderLayout.CENTER);
+            jPanel1.revalidate();
+            jPanel1.repaint();
+        }
     }
 
     /**
@@ -78,6 +94,9 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,37 +104,59 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 336, Short.MAX_VALUE)
+            .addGap(0, 322, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 228, Short.MAX_VALUE)
+            .addGap(0, 334, Short.MAX_VALUE)
         );
 
         jButton1.setText("Volver");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
+        jButton2.setText("Ejecutar BFS");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+
+        jButton3.setText("Ejecutar DFS");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+
+        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(22, 22, 22))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField1))))
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(17, 17, 17))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -126,6 +167,44 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
         new Home().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+         String idFuente = jTextField1.getText().trim();
+        if (idFuente.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el ID de la neurona fuente.");
+            return;
+        }
+        if (App.getInstance().getGraph().getNeurona(idFuente) == null) {
+            JOptionPane.showMessageDialog(this, "La neurona " + idFuente + " no existe.");
+            return;
+        }
+        ZonasAisladas za = new ZonasAisladas(App.getInstance().getGraph());
+        za.BFS(idFuente);
+        mostrarGrafo();
+        JOptionPane.showMessageDialog(this, "BFS ejecutado desde neurona " + idFuente);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String idFuente = jTextField1.getText().trim();
+        if (idFuente.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el ID de la neurona fuente.");
+            return;
+        }
+        if (App.getInstance().getGraph().getNeurona(idFuente) == null) {
+            JOptionPane.showMessageDialog(this, "La neurona " + idFuente + " no existe.");
+            return;
+        }
+        ZonasAisladas za = new ZonasAisladas(App.getInstance().getGraph());
+        za.DFS(idFuente);
+        mostrarGrafo();
+        JOptionPane.showMessageDialog(this, "DFS ejecutado desde neurona " + idFuente);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,6 +233,9 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
