@@ -1,3 +1,6 @@
+
+import App.App;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -5,7 +8,7 @@
  
 /**
  * . Inicializa el Singleton App y lanza la interfaz grafica
- * @author Ariadna Lechin
+ * @author Ariadna Lechin 
  */
 public class Main {
  
@@ -14,5 +17,7 @@ public class Main {
     public static void main(String[] args) {
         // Se inicializa el Singleton, que carga los CSV preestablecidos
         App.getInstance();
+        Interfaces.Home home = new Interfaces.Home();
+        home.setVisible(true);
     }
 }
