@@ -206,6 +206,7 @@ public class Home extends javax.swing.JFrame {
         jLabel9.setText("ID");
 
         jToggleButton2.setText("Eliminar");
+        jToggleButton2.addActionListener(this::jToggleButton2ActionPerformed);
 
         jLabel10.setText("Añadir / Eliminar Sinapsis");
 
@@ -261,19 +262,17 @@ public class Home extends javax.swing.JFrame {
                                                 .addGroup(layout.createSequentialGroup()
                                                     .addComponent(jLabel9)
                                                     .addGap(18, 18, 18)
-                                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(jLabel8)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel17)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addGap(9, 9, 9)
-                                                            .addComponent(jToggleButton1)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(jToggleButton2))
-                                                        .addComponent(jLabel16))
-                                                    .addGap(20, 20, 20)))
-                                            .addGap(18, 18, 18)
+                                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel17)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(9, 9, 9)
+                                                        .addComponent(jToggleButton1)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(jToggleButton2))
+                                                    .addComponent(jLabel16))
+                                                .addComponent(jLabel8))
+                                            .addGap(38, 38, 38)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(jLabel12)
                                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -418,6 +417,19 @@ public class Home extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
+        String id = jTextField1.getText().trim();
+        if (id.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el ID de la neurona.");
+            return;
+        }
+        if (App.getInstance().getGraph().getNeurona(id) != null) {
+            JOptionPane.showMessageDialog(this, "Ya existe una neurona con ID: " + id);
+            return;
+        }
+        App.getInstance().getGraph().agregarNeurona(new Neurona(id));
+        mostrarGrafoSimple();
+        jTextField1.setText("");
+        JOptionPane.showMessageDialog(this, "Neurona " + id + " agregada.");
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -431,6 +443,23 @@ public class Home extends javax.swing.JFrame {
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton3ActionPerformed
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        // TODO add your handling code here:
+        String id = jTextField1.getText().trim();
+        if (id.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el ID de la neurona.");
+            return;
+        }
+        if (App.getInstance().getGraph().getNeurona(id) == null) {
+            JOptionPane.showMessageDialog(this, "No existe una neurona con ID: " + id);
+            return;
+        }
+        App.getInstance().getGraph().eliminarNeurona(id);
+        mostrarGrafoSimple();
+        jTextField1.setText("");
+        JOptionPane.showMessageDialog(this, "Neurona " + id + " eliminada con todas sus sinapsis.");
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     /**
      * @param args the command line arguments
