@@ -4,7 +4,15 @@
  */
 package Interfaces;
 import App.App;
+import Classes.Neurona;
+import Classes.Sinapsis;
+import LinkedList.ListNode;
 import javax.swing.JOptionPane;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swing_viewer.SwingViewer;
+import org.graphstream.ui.swing_viewer.ViewPanel;
+import org.graphstream.ui.view.Viewer;
 
 
 /**
@@ -14,6 +22,8 @@ import javax.swing.JOptionPane;
 public class Home extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Home.class.getName());
+    private org.graphstream.ui.swing_viewer.SwingViewer viewerHome;
+
 
     /**
      * Creates new form Home
@@ -21,8 +31,57 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         App.getInstance();
+        mostrarGrafoSimple();
 
     }
+    
+    private void mostrarGrafoSimple() {
+        System.setProperty("org.graphstream.ui", "swing");
+        Graph gsGraph = new SingleGraph("Red Sinaptica");
+
+        // Se agregan los nodos todos en verde
+        Neurona[] neuronas = App.getInstance().getGraph().getNeuronas();
+        for (int i = 0; i < App.getInstance().getGraph().getCantNeuronas(); i++) {
+            String id = neuronas[i].getId();
+            gsGraph.addNode(id).setAttribute("ui.label", id);
+            gsGraph.getNode(id).setAttribute("ui.style", "fill-color: green;");
+        }
+
+        // Se agregan las aristas
+        for (int i = 0; i < App.getInstance().getGraph().getCantNeuronas(); i++) {
+            String idOrigen = neuronas[i].getId();
+            ListNode<Sinapsis> nodo = App.getInstance().getGraph().getAdyacentes(idOrigen).getpFirst();
+            while (nodo != null) {
+                String idDestino = nodo.getElement().getDestino().getId();
+                gsGraph.addEdge(idOrigen + "-" + idDestino, idOrigen, idDestino, true);
+                nodo = nodo.getpNext();
+            }
+        }
+
+        // Primera vez se crea el viewer
+        if (viewerHome == null) {
+            viewerHome = new SwingViewer(gsGraph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+            viewerHome.enableAutoLayout();
+            ViewPanel viewPanel = (ViewPanel) viewerHome.addDefaultView(false);
+            viewPanel.setPreferredSize(jPanel2.getPreferredSize());
+            jPanel2.setLayout(new java.awt.BorderLayout());
+            jPanel2.add(viewPanel, java.awt.BorderLayout.CENTER);
+            jPanel2.revalidate();
+        } else {
+            // Siguientes veces se destruye y recrea
+            viewerHome.close();
+            viewerHome = null;
+            viewerHome = new SwingViewer(gsGraph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+            viewerHome.enableAutoLayout();
+            ViewPanel viewPanel = (ViewPanel) viewerHome.addDefaultView(false);
+            viewPanel.setPreferredSize(jPanel2.getPreferredSize());
+            jPanel2.removeAll();
+            jPanel2.setLayout(new java.awt.BorderLayout());
+            jPanel2.add(viewPanel, java.awt.BorderLayout.CENTER);
+            jPanel2.revalidate();
+            jPanel2.repaint();
+        }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -179,22 +238,6 @@ public class Home extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +291,20 @@ public class Home extends javax.swing.JFrame {
                                     .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jTextField5))))
-                        .addGap(27, 27, 27)))
+                        .addGap(27, 27, 27))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel7)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -323,9 +379,8 @@ public class Home extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-    CargarArchivo cargador = new CargarArchivo();
+        CargarArchivo cargador = new CargarArchivo();
         String ruta = cargador.seleccionarArchivo();
-
         if (ruta != null) {
             if (App.getInstance().getGraph().getCantNeuronas() > 0) {
                 int confirmacion = JOptionPane.showConfirmDialog(this,
@@ -337,6 +392,7 @@ public class Home extends javax.swing.JFrame {
                 }
             }
             App.getInstance().recargarGrafo(ruta);
+            mostrarGrafoSimple();
             JOptionPane.showMessageDialog(this, "Grafo cargado. Neuronas: " 
                 + App.getInstance().getGraph().getCantNeuronas());
         }
