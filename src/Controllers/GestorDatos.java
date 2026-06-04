@@ -199,4 +199,36 @@ public class GestorDatos {
             }
         }
     }
+    
+    /** Guarda el diccionario actual en el CSV de la ruta indicada */
+    public void guardarDiccionario(String ruta) {
+        java.io.BufferedWriter bw = null;
+        try {
+            bw = new java.io.BufferedWriter(new java.io.FileWriter(ruta));
+            // Se escribe el encabezado
+            bw.write("id,nombre,efecto,velocidad,descripcion");
+            bw.newLine();
+            // Se recorren todos los buckets de la hash table
+            for (int i = 0; i < hashTable.getCapacidad(); i++) {
+                ListNode<Neurotransmisor> nodo = hashTable.getBucketFirst(i);
+                while (nodo != null) {
+                    Neurotransmisor nt = nodo.getElement();
+                    bw.write(nt.getId() + "," + nt.getNombre() + "," + nt.getEfecto() + "," +
+                        nt.getVelocidad() + ",\"" + nt.getDescripcion() + "\"");
+                    bw.newLine();
+                    nodo = nodo.getpNext();
+                }
+            }
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Error al guardar el diccionario: " + e.getMessage());
+        } finally {
+            if (bw != null) {
+                try {
+                    bw.close();
+                } catch (java.io.IOException e) {
+                    throw new RuntimeException("Error al cerrar el archivo: " + e.getMessage());
+                }
+            }
+        }
+    }
 }

@@ -144,4 +144,14 @@ public class App {
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    /** Guardar el diccionario **/
+    public void guardarDiccionarioDefault() {
+    try {
+        gestorDatos.guardarDiccionario(RUTA_DICCIONARIO);
+    } catch (RuntimeException e) {
+        JOptionPane.showMessageDialog(null, "Error al guardar el diccionario.\n" + e.getMessage(),
+            "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
 }

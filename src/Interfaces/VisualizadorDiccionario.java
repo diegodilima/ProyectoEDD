@@ -31,7 +31,7 @@ public class VisualizadorDiccionario extends javax.swing.JFrame {
         );
         // Recorremos todos los buckets de la hash table
         for (int i = 0; i < App.getInstance().getHashTable().getCapacidad(); i++) {
-            LinkedList.ListNode<Classes.Neurotransmisor> nodo = App.getInstance().getHashTable().getBucket(i).getpFirst();
+            LinkedList.ListNode<Classes.Neurotransmisor> nodo = App.getInstance().getHashTable().getBucketFirst(i);
             while (nodo != null) {
                 Classes.Neurotransmisor nt = nodo.getElement();
                 modelo.addRow(new Object[]{
@@ -283,6 +283,7 @@ public class VisualizadorDiccionario extends javax.swing.JFrame {
             }
             App.getInstance().recargarDiccionario(ruta);
             cargarTabla();
+            App.getInstance().guardarDiccionarioDefault();
             JOptionPane.showMessageDialog(this, "Diccionario cargado. Neurotransmisores: "
                 + App.getInstance().getHashTable().getSize());
         }
@@ -305,6 +306,7 @@ public class VisualizadorDiccionario extends javax.swing.JFrame {
         }
         App.getInstance().getHashTable().remove(id);
         cargarTabla();
+        App.getInstance().guardarDiccionarioDefault();
         jTextField1.setText("");
         JOptionPane.showMessageDialog(this, "Neurotransmisor " + id + " eliminado.");
     }//GEN-LAST:event_jToggleButton2ActionPerformed
@@ -358,6 +360,7 @@ public class VisualizadorDiccionario extends javax.swing.JFrame {
         }
         App.getInstance().getHashTable().put(new Classes.Neurotransmisor(id, nombre, efecto, velocidad, descripcion));
         cargarTabla();
+        App.getInstance().guardarDiccionarioDefault();
         // Se limpian los campos
         jTextField2.setText("");
         jTextField3.setText("");

@@ -169,4 +169,8 @@ public class HashTable {
     public LinkedList<Neurotransmisor> getBucket(int index) {
         return tabla[index];
     }
+    
+    public ListNode<Neurotransmisor> getBucketFirst(int index) {
+        return tabla[index].getpFirst();
+    }
 }
