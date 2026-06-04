@@ -231,45 +231,44 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
                         .addGap(61, 61, 61)
                         .addComponent(jLabel6)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(139, 139, 139)
-                                    .addComponent(jLabel2))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(34, 34, 34)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel8)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel7))
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGap(30, 30, 30)
-                                    .addComponent(jLabel10)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jToggleButton1)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jToggleButton2)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(80, 80, 80)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(27, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(158, 158, 158))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(158, 158, 158))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(82, 82, 82))))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(139, 139, 139)
+                                        .addComponent(jLabel2))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(34, 34, 34)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel8)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel7))
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jToggleButton1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jToggleButton2)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(80, 80, 80)
+                                    .addComponent(jLabel11)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(67, 67, 67)
+                                .addComponent(jLabel5)))
+                        .addContainerGap(27, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,7 +340,7 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-         String idFuente = jTextField1.getText().trim();
+        String idFuente = jTextField1.getText().trim();
         if (idFuente.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese el ID de la neurona fuente.");
             return;
@@ -353,7 +352,8 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
         ZonasAisladas za = new ZonasAisladas(App.getInstance().getGraph());
         za.BFS(idFuente);
         mostrarGrafo();
-        
+
+        // Se muestra el recorrido
         StringBuilder sb = new StringBuilder("Recorrido BFS desde " + idFuente + ":\n");
         ListNode<String> nodo = za.getRecorrido().getpFirst();
         while (nodo != null) {
@@ -361,8 +361,22 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
             if (nodo.getpNext() != null) sb.append(" → ");
             nodo = nodo.getpNext();
         }
-        jTextArea1.setText(sb.toString());
 
+        // Se muestran las zonas aisladas
+        sb.append("\n\nZonas aisladas: ");
+        boolean hayAisladas = false;
+        Neurona[] neuronas = App.getInstance().getGraph().getNeuronas();
+        for (int i = 0; i < App.getInstance().getGraph().getCantNeuronas(); i++) {
+            if (neuronas[i].isAislada()) {
+                sb.append(neuronas[i].getId()).append(" ");
+                hayAisladas = true;
+            }
+        }
+        if (!hayAisladas) {
+            sb.append("Ninguna - red fuertemente conexa");
+        }
+
+        jTextArea1.setText(sb.toString());
         JOptionPane.showMessageDialog(this, "BFS ejecutado desde neurona " + idFuente);
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -379,19 +393,34 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
             return;
         }
         ZonasAisladas za = new ZonasAisladas(App.getInstance().getGraph());
-        za.DFS(idFuente);
+        za.BFS(idFuente);
         mostrarGrafo();
-        
-        StringBuilder sb = new StringBuilder("Recorrido DFS desde " + idFuente + ":\n");
+
+        // Se muestra el recorrido
+        StringBuilder sb = new StringBuilder("Recorrido BFS desde " + idFuente + ":\n");
         ListNode<String> nodo = za.getRecorrido().getpFirst();
         while (nodo != null) {
             sb.append(nodo.getElement());
             if (nodo.getpNext() != null) sb.append(" → ");
             nodo = nodo.getpNext();
         }
-        jTextArea1.setText(sb.toString());
 
-        JOptionPane.showMessageDialog(this, "DFS ejecutado desde neurona " + idFuente);
+        // Se muestran las zonas aisladas
+        sb.append("\n\nZonas aisladas: ");
+        boolean hayAisladas = false;
+        Neurona[] neuronas = App.getInstance().getGraph().getNeuronas();
+        for (int i = 0; i < App.getInstance().getGraph().getCantNeuronas(); i++) {
+            if (neuronas[i].isAislada()) {
+                sb.append(neuronas[i].getId()).append(" ");
+                hayAisladas = true;
+            }
+        }
+        if (!hayAisladas) {
+            sb.append("Ninguna - red fuertemente conexa");
+        }
+
+        jTextArea1.setText(sb.toString());
+        JOptionPane.showMessageDialog(this, "BFS ejecutado desde neurona " + idFuente);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
