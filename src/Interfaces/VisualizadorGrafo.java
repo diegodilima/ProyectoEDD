@@ -33,6 +33,8 @@ public class VisualizadorGrafo extends javax.swing.JFrame {
          mostrarGrafo();
          jTextArea1.setEditable(false);
          jTextField2.setEditable(false);
+         jTextField1.setPreferredSize(new java.awt.Dimension(150, 25));
+
     }
 
     private void mostrarGrafo() {

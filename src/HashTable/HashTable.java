@@ -165,4 +165,8 @@ public class HashTable {
         }
         return sb.toString();
     }
+    
+    public LinkedList<Neurotransmisor> getBucket(int index) {
+        return tabla[index];
+    }
 }
