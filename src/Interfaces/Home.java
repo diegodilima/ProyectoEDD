@@ -42,7 +42,7 @@ public class Home extends javax.swing.JFrame {
         jButton1.setText("Cargar CSV de grafo ");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jButton2.setText("Cargar CSV de diccionario");
+        jButton2.setText("Ver gestor de diccionario");
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
         jButton3.setText("Ver Representación del grafo");
@@ -99,23 +99,9 @@ public class Home extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        CargarArchivo cargador = new CargarArchivo();
-        String ruta = cargador.seleccionarArchivo();
-
-        if (ruta != null) {
-            if (App.getInstance().getHashTable().getSize() > 0) {
-                int confirmacion = JOptionPane.showConfirmDialog(this,
-                    "Ya hay un diccionario cargado. ¿Desea reemplazarlo?",
-                    "Advertencia",
-                    JOptionPane.YES_NO_OPTION);
-                if (confirmacion != JOptionPane.YES_OPTION) {
-                    return;
-                }
-            }
-            App.getInstance().recargarDiccionario(ruta);
-            JOptionPane.showMessageDialog(this, "Diccionario cargado. Neurotransmisores: "
-                + App.getInstance().getHashTable().getSize());
-        }
+        VisualizadorDiccionario vista = new VisualizadorDiccionario();
+        vista.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
