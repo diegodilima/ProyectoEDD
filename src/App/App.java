@@ -28,10 +28,10 @@ public class App {
     private GestorDatos gestorDatos;
 
     /** Ruta del CSV del grafo preestablecido en el paquete Data */
-    private static final String RUTA_GRAFO = "src/Data/red_sinaptica.csv";
+    private static final String RUTA_GRAFO = System.getProperty("user.dir") + "/src/Data/red_sinaptica.csv";
 
     /** Ruta del CSV del diccionario de neurotransmisores preestablecido en el paquete Data */
-    private static final String RUTA_DICCIONARIO = "src/Data/diccionario_neurotransmisores.csv";
+    private static final String RUTA_DICCIONARIO = System.getProperty("user.dir") + "/src/Data/diccionario_neurotransmisores.csv";
 
     /** Constructor privado del Singleton, y carga los CSV preestablecidos del paquete Data  */
     private App() {
@@ -134,5 +134,14 @@ public class App {
         this.gestorDatos = gestorDatos;
     }
     
-    
+    /** Guardar el grafo **/
+    public void guardarGrafoDefault() {
+        try {
+            gestorDatos.guardarGrafo(RUTA_GRAFO);
+            System.out.println("Guardado exitoso");
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar el grafo.\n" + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

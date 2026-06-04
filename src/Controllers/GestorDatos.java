@@ -10,6 +10,8 @@ import Classes.Sinapsis;
 import Classes.Neurotransmisor;
 import Graph.Graph;
 import HashTable.HashTable;
+import LinkedList.LinkedList;
+import LinkedList.ListNode;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -161,5 +163,40 @@ public class GestorDatos {
     /** Establece la tabla hash a poblar */
     public void setHashTable(HashTable hashTable) {
         this.hashTable = hashTable;
+    }
+    
+    /** Guarda el grafo actual en el CSV de la ruta indicada */
+    public void guardarGrafo(String ruta) {
+        java.io.BufferedWriter bw = null;
+        try {
+            bw = new java.io.BufferedWriter(new java.io.FileWriter(ruta));
+            // Encabezado
+            bw.write("origen,destino,distancia,ID_Neurotransmisor,coheficiente_eficiencia_sinaptica");
+            bw.newLine();
+            // Recorrer todas las neuronas y sus sinapsis
+            Neurona[] neuronas = graph.getNeuronas();
+            for (int i = 0; i < graph.getCantNeuronas(); i++) {
+                LinkedList<Sinapsis> adyacentes = graph.getAdyacentes(neuronas[i].getId());
+                ListNode<Sinapsis> nodo = adyacentes.getpFirst();
+                while (nodo != null) {
+                    Sinapsis s = nodo.getElement();
+                    bw.write(s.getOrigen().getId() + "," + s.getDestino().getId() + "," +
+                        s.getDistancia() + "," + s.getIdNeurotransmisor() + "," +
+                        s.getCoheficienteEficienciaSinaptica());
+                    bw.newLine();
+                    nodo = nodo.getpNext();
+                }
+            }
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Error al guardar el grafo: " + e.getMessage());
+        } finally {
+            if (bw != null) {
+                try {
+                    bw.close();
+                } catch (java.io.IOException e) {
+                    throw new RuntimeException("Error al cerrar el archivo: " + e.getMessage());
+                }
+            }
+        }
     }
 }
