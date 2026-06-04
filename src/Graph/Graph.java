@@ -165,4 +165,14 @@ public class Graph {
             neuronas[i].setAislada(false);
         }
     }
+    
+    /** Eliminar sinapsis, importante para el boton en la interfaz **/
+    public void eliminarSinapsis(String idOrigen, String idDestino) {
+    int indice = getIndice(idOrigen);
+    if (indice == -1) {
+        return;
+    }
+    eliminarSinapsisDeBucket(indice, idDestino);
+}
+
 }

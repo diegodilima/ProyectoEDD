@@ -345,6 +345,7 @@ public class VisualizadorDiccionario extends javax.swing.JFrame {
         // Se valida que la velocidad sea un numero
         double velocidad;
         try {
+            speedStr = speedStr.replace(",", ".");
             velocidad = Double.parseDouble(speedStr);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "La velocidad debe ser un numero.");

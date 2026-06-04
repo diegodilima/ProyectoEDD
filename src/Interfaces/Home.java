@@ -80,8 +80,8 @@ public class Home extends javax.swing.JFrame {
             jPanel2.add(viewPanel, java.awt.BorderLayout.CENTER);
             jPanel2.revalidate();
             jPanel2.repaint();
-        }
-}
+        }    
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -208,6 +208,8 @@ public class Home extends javax.swing.JFrame {
         jToggleButton2.setText("Eliminar");
         jToggleButton2.addActionListener(this::jToggleButton2ActionPerformed);
 
+        jTextField2.addActionListener(this::jTextField2ActionPerformed);
+
         jLabel10.setText("Añadir / Eliminar Sinapsis");
 
         jLabel11.setText("ID Origen");
@@ -220,12 +222,19 @@ public class Home extends javax.swing.JFrame {
 
         jLabel14.setText("ID neurotra");
 
+        jTextField4.addActionListener(this::jTextField4ActionPerformed);
+
+        jTextField5.addActionListener(this::jTextField5ActionPerformed);
+
         jLabel15.setText("Coefic. k");
+
+        jTextField6.addActionListener(this::jTextField6ActionPerformed);
 
         jToggleButton3.setText("Agregar");
         jToggleButton3.addActionListener(this::jToggleButton3ActionPerformed);
 
         jToggleButton4.setText("Eliminar");
+        jToggleButton4.addActionListener(this::jToggleButton4ActionPerformed);
 
         jLabel16.setText("Nota: en caso de solamente");
 
@@ -442,6 +451,54 @@ public class Home extends javax.swing.JFrame {
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
         // TODO add your handling code here:
+        String origen = jTextField2.getText().trim();
+        String destino = jTextField3.getText().trim();
+        String distanciaStr = jTextField5.getText().trim();
+        String idNeurotransmisor = jTextField4.getText().trim();
+        String coeficienteStr = jTextField6.getText().trim();
+
+        // Se valida que todos los campos esten llenos
+        if (origen.isEmpty() || destino.isEmpty() || distanciaStr.isEmpty() 
+            || idNeurotransmisor.isEmpty() || coeficienteStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
+            return;
+        }
+        // Se valida que distancia y coeficiente sean numeros
+        double distancia, coeficiente;
+        try {
+            distanciaStr = distanciaStr.replace(",", ".");
+            coeficienteStr = coeficienteStr.replace(",", ".");
+            distancia = Double.parseDouble(distanciaStr);
+            coeficiente = Double.parseDouble(coeficienteStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Distancia y Coeficiente k deben ser numeros.");
+            return;
+        }
+        // Se valida que ambas neuronas existan
+        if (App.getInstance().getGraph().getNeurona(origen) == null) {
+            JOptionPane.showMessageDialog(this, "La neurona origen " + origen + " no existe.");
+            return;
+        }
+        if (App.getInstance().getGraph().getNeurona(destino) == null) {
+            JOptionPane.showMessageDialog(this, "La neurona destino " + destino + " no existe.");
+            return;
+        }
+        // Se valida que el neurotransmisor exista en la hash table
+        if (!App.getInstance().getHashTable().contains(idNeurotransmisor)) {
+            JOptionPane.showMessageDialog(this, "El neurotransmisor " + idNeurotransmisor + " no existe en el diccionario.");
+            return;
+        }
+        Neurona nOrigen = App.getInstance().getGraph().getNeurona(origen);
+        Neurona nDestino = App.getInstance().getGraph().getNeurona(destino);
+        App.getInstance().getGraph().agregarSinapsis(new Sinapsis(nOrigen, nDestino, distancia, idNeurotransmisor, coeficiente));
+        mostrarGrafoSimple();
+        // Se limpian los campos
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField5.setText("");
+        jTextField4.setText("");
+        jTextField6.setText("");
+        JOptionPane.showMessageDialog(this, "Sinapsis agregada de " + origen + " a " + destino);
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
@@ -460,6 +517,48 @@ public class Home extends javax.swing.JFrame {
         jTextField1.setText("");
         JOptionPane.showMessageDialog(this, "Neurona " + id + " eliminada con todas sus sinapsis.");
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
+        // TODO add your handling code here:
+         String origen = jTextField2.getText().trim();
+        String destino = jTextField3.getText().trim();
+
+        // Se valida que origen y destino esten llenos
+        if (origen.isEmpty() || destino.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese ID origen y destino para eliminar la sinapsis.");
+            return;
+        }
+        // Se valida que ambas neuronas existan
+        if (App.getInstance().getGraph().getNeurona(origen) == null) {
+            JOptionPane.showMessageDialog(this, "La neurona origen " + origen + " no existe.");
+            return;
+        }
+        if (App.getInstance().getGraph().getNeurona(destino) == null) {
+            JOptionPane.showMessageDialog(this, "La neurona destino " + destino + " no existe.");
+            return;
+        }
+        App.getInstance().getGraph().eliminarSinapsis(origen, destino);
+        mostrarGrafoSimple();
+        jTextField2.setText("");
+        jTextField3.setText("");
+        JOptionPane.showMessageDialog(this, "Sinapsis de " + origen + " a " + destino + " eliminada.");
+    }//GEN-LAST:event_jToggleButton4ActionPerformed
 
     /**
      * @param args the command line arguments
