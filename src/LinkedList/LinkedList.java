@@ -10,11 +10,8 @@ package LinkedList;
  */
 public class LinkedList<T> {
 
-    /** Primer nodo de la lista */
-    private ListNode<T> pFirst;
-
-    /** Cantidad de elementos en la lista */
-    private int size;
+    private ListNode<T> pFirst; //Primer nodo de la lista
+    private int size; // Cantidad de elementos en la lista
 
     /** Constructor, Crea una lista vacía sin elementos */
     public LinkedList() {
@@ -185,7 +182,7 @@ public class LinkedList<T> {
         return size;
     }
 
-    /** @description Establece el tamaño de la lista manualmente. */
+    /** Establece el tamaño de la lista manualmente */
     public void setSize(int size) {
         this.size = size;
     }

@@ -9,11 +9,8 @@ package LinkedList;
  * @author Diego Di Lima
  */
 public class ListNode<T> {
-
-    /** Elemento almacenado en el nodo */
-    public T element;
-    /** Referencia al siguiente nodo en la lista */
-    public ListNode<T> pNext;
+    public T element; // Elemento almacenado en el nodo
+    public ListNode<T> pNext; //Referencia al siguiente nodo en la lista
 
     /** Constructor que inicializa el nodo con un elemento y sin siguiente */
     public ListNode(T element) {
